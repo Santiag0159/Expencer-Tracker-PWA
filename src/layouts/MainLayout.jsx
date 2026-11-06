@@ -1,11 +1,11 @@
 import { Link, Outlet } from 'react-router-dom'
-import '../App.css'
+import "/src/styles/App.css";
 
 function MainLayout() {
   return (
     <div className="app-shell">
       <header className="site-header">
-        <Link className="brand" to="/expenses" aria-label="Gastos, ir a la lista">
+        <Link className="brand" to="/" aria-label="Gastos, ir a la lista">
           <span className="brand-mark" aria-hidden="true">
             $
           </span>
@@ -21,4 +21,4 @@ function MainLayout() {
   )
 }
 
-export default MainLayout
+export default MainLayout;
