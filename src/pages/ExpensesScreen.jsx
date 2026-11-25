@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import ExpenseCard from '../components/ExpenseCard'
 import CategoryBadge from '../components/CategoryBadge'
-import { mockExpenses } from '../data/mockExpenses'
+import { useExpenses } from '../context/ExpensesContext'
+import { getCategoryIcon } from '../data/categories'
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -15,19 +16,14 @@ const dateFormatter = new Intl.DateTimeFormat('es-AR', {
   year: 'numeric',
 })
 
-const categoryIcons = {
-  Alimentación: '🛒',
-  Transporte: '⛽',
-  Servicios: '🌐',
-}
-
 function ExpensesScreen() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { expenses } = useExpenses()
   const expense = id
-    ? mockExpenses.find((item) => item.id === id)
+    ? expenses.find((item) => item.id === id)
     : undefined
-  const total = mockExpenses.reduce((sum, expense) => sum + expense.amount, 0)
+  const total = expenses.reduce((sum, expense) => sum + expense.amount, 0)
 
   if (id && !expense) {
     return (
@@ -56,7 +52,7 @@ function ExpensesScreen() {
         <article className="detail-card">
           <header className="detail-overview">
             <span className="expense-icon" aria-hidden="true">
-              {categoryIcons[expense.category] ?? '🧾'}
+              {getCategoryIcon(expense.category)}
             </span>
             <div>
               <h1 id="expense-detail-title">{expense.description}</h1>
@@ -94,11 +90,11 @@ function ExpensesScreen() {
         <p className="eyebrow">Tu actividad</p>
         <h1 id="expenses-title">Gastos recientes</h1>
         <p className="page-subtitle">
-          {mockExpenses.length} gastos · {currencyFormatter.format(total)} en total
+          {expenses.length} gastos · {currencyFormatter.format(total)} en total
         </p>
       </div>
       <ul className="expense-list" aria-label="Lista de gastos">
-        {mockExpenses.map((expense) => (
+        {expenses.map((expense) => (
           <li key={expense.id}>
             <ExpenseCard expense={expense} />
           </li>

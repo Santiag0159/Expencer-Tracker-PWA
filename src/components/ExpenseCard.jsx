@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import CategoryBadge from './CategoryBadge'
+import { getCategoryIcon } from '../data/categories'
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -7,17 +8,11 @@ const currencyFormatter = new Intl.NumberFormat('es-AR', {
   maximumFractionDigits: 0,
 })
 
-const categoryIcons = {
-  Alimentación: '🛒',
-  Transporte: '⛽',
-  Servicios: '🌐',
-}
-
 function ExpenseCard({ expense }) {
   return (
     <Link className="expense-card" to={`/expenses/${expense.id}`}>
       <span className="expense-icon" aria-hidden="true">
-        {categoryIcons[expense.category] ?? '🧾'}
+        {getCategoryIcon(expense.category)}
       </span>
       <span className="expense-card-copy">
         <span className="expense-card-title">{expense.description}</span>
