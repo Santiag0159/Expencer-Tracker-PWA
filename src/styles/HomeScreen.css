@@ -1,0 +1,71 @@
+/*mobile-first nativo*/
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: sans-serif;
+    background-color: #f8f9fa;
+    padding: 16px
+}
+.dashboard-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.dashboard-header h1 {
+    font-size: 24px;
+    margin: 0;
+    color: #343a40;
+}
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+.balance-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.balance-card h2 {
+    font-size: 20px;
+    margin: 0;
+    color: #495057;
+}
+.dashboard-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.boton-primario, .boton-segundario {
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/*para pantallas más grandes*/
+@media (min-width: 768px) {
+    .dashboard-container {
+        align-items: center;
+        padding: 32px;
+    }
+    .dashboard-content {
+        width: 100%;
+        max-width: 600px;
+    }
+    .dashboard-actions {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .boton-primario, .boton-segundario {
+        flex: 1;
+    }
+}
