@@ -4,6 +4,8 @@ import ExpenseCard from '../components/ExpenseCard'
 import CategoryBadge from '../components/CategoryBadge'
 import NewExpenseModal from '../components/NewExpenseModal'
 import { mockExpenses } from '../data/mockExpenses'
+import { useExpenses } from '../context/ExpensesContext'
+import { getCategoryIcon } from '../data/categories'
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -17,21 +19,16 @@ const dateFormatter = new Intl.DateTimeFormat('es-AR', {
   year: 'numeric',
 })
 
-const categoryIcons = {
-  Alimentación: '🛒',
-  Transporte: '⛽',
-  Servicios: '🌐',
-}
-
 function ExpensesScreen() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { expenses } = useExpenses()
 
   const expense = id
-    ? mockExpenses.find((item) => item.id === id)
+    ? expenses.find((item) => item.id === id)
     : undefined
-  const total = mockExpenses.reduce((sum, expense) => sum + expense.amount, 0)
+  const total = expenses.reduce((sum, expense) => sum + expense.amount, 0)
 
   if (id && !expense) {
     return (
@@ -60,7 +57,7 @@ function ExpensesScreen() {
         <article className="detail-card">
           <header className="detail-overview">
             <span className="expense-icon" aria-hidden="true">
-              {categoryIcons[expense.category] ?? '🧾'}
+              {getCategoryIcon(expense.category)}
             </span>
             <div>
               <h1 id="expense-detail-title">{expense.description}</h1>
