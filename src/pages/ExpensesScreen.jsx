@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import ExpenseCard from '../components/ExpenseCard'
 import CategoryBadge from '../components/CategoryBadge'
 import NewExpenseModal from '../components/NewExpenseModal'
-import { mockExpenses } from '../data/mockExpenses'
+import { useExpenses } from '../context/ExpensesContext'
+import { getCategoryIcon } from '../data/categories'
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -17,21 +18,16 @@ const dateFormatter = new Intl.DateTimeFormat('es-AR', {
   year: 'numeric',
 })
 
-const categoryIcons = {
-  Alimentación: '🛒',
-  Transporte: '⛽',
-  Servicios: '🌐',
-}
-
 function ExpensesScreen() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { expenses } = useExpenses()
 
   const expense = id
-    ? mockExpenses.find((item) => item.id === id)
+    ? expenses.find((item) => item.id === id)
     : undefined
-  const total = mockExpenses.reduce((sum, expense) => sum + expense.amount, 0)
+  const total = expenses.reduce((sum, item) => sum + item.amount, 0)
 
   if (id && !expense) {
     return (
@@ -60,7 +56,7 @@ function ExpensesScreen() {
         <article className="detail-card">
           <header className="detail-overview">
             <span className="expense-icon" aria-hidden="true">
-              {categoryIcons[expense.category] ?? '🧾'}
+              {getCategoryIcon(expense.category)}
             </span>
             <div>
               <h1 id="expense-detail-title">{expense.description}</h1>
@@ -92,45 +88,53 @@ function ExpensesScreen() {
     )
   }
 
-    return (
-        <section aria-labelledby="expenses-title">
-          <div className="page-heading">
-            <p className="eyebrow">Tu actividad</p>
-            <h1 id="expenses-title">Gastos recientes</h1>
-            <p className="page-subtitle">
-              {mockExpenses.length} gastos · {currencyFormatter.format(total)} en total
-            </p>
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              style={{
-                marginTop: 12,
-                minHeight: 44,
-                padding: '0 16px',
-                backgroundColor: '#2a514b',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: 8,
-                fontSize: 16,
-                fontWeight: 'bold',
-                cursor: 'pointer',
-              }}
-            >
-              + Nuevo Gasto
-            </button>
-          </div>
-          <ul className="expense-list" aria-label="Lista de gastos">
-            {mockExpenses.map((expense) => (
-              <li key={expense.id}>
-                <ExpenseCard expense={expense} />
-              </li>
-            ))}
-          </ul>
+  return (
+    <section aria-labelledby="expenses-title">
+      <div className="page-heading">
+        <p className="eyebrow">Tu actividad</p>
+        <h1 id="expenses-title">Gastos recientes</h1>
+        <p className="page-subtitle">
+          {expenses.length} gastos · {currencyFormatter.format(total)} en total
+        </p>
+        <button
+          type="button"
+          onClick={() => setIsModalOpen(true)}
+          style={{
+            marginTop: 12,
+            minHeight: 44,
+            padding: '0 16px',
+            backgroundColor: '#2a514b',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: 8,
+            fontSize: 16,
+            fontWeight: 'bold',
+            cursor: 'pointer',
+          }}
+        >
+          + Nuevo Gasto
+        </button>
+      </div>
 
-          <NewExpenseModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-          />
+      {expenses.length === 0 ? (
+        <div className="empty-state">
+          <p>No hay gastos registrados todavía.</p>
+          <p>Tocá "+ Nuevo Gasto" para cargar tu primer movimiento.</p>
+        </div>
+      ) : (
+        <ul className="expense-list" aria-label="Lista de gastos">
+          {expenses.map((item) => (
+            <li key={item.id}>
+              <ExpenseCard expense={item} />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <NewExpenseModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   )
 }
