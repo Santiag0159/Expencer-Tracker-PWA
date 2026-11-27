@@ -1,0 +1,62 @@
+/* Configuración del modal como Bottom Sheet */
+.bottom-sheet {
+  margin: auto auto 0 auto; /* Lo pega a la parte inferior */
+  width: 100%;
+  max-width: 600px;
+  border: none;
+  border-radius: 16px 16px 0 0;
+  padding: 24px;
+  box-sizing: border-box;
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+/* Oscurece el fondo de la pantalla (criterio de validación) */
+.bottom-sheet::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Animación de entrada desde abajo */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Estilos del formulario y Touch UX */
+.expense-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Criterio de validación: mínimo 44px para controles táctiles */
+input, select, button {
+  min-height: 44px;
+  font-size: 16px; /* 16px evita el auto-zoom en Safari/iOS */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-cancel, .btn-save {
+  flex: 1;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-save {
+  background-color: #005000;
+  color: white;
+  border: none;
+}

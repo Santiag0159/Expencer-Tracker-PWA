@@ -1,7 +1,10 @@
-import React from 'react';
 import "../styles/HomeScreen.css";
+import NewExpenseModal from '../components/NewExpenseModal';
+import React, { useState } from 'react';
 
 const HomeScreen = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <main className="dashboard-container">
             <header className="dashboard-header">
@@ -16,10 +19,17 @@ const HomeScreen = () => {
             </article> 
 
             <nav className="dashboard-actions">
-                <button className="boton-primario">Agregar Gasto</button>
+                <button className="boton-primario" onClick={() => setIsModalOpen(true)}>
+                Agregar Gasto
+                </button>
                 <button className="boton-secundario">Historial</button>
             </nav>
             </section>
+
+            <NewExpenseModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+            />
         </main>
     );
 };
