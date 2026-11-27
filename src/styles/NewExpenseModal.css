@@ -60,3 +60,13 @@ input, select, button {
   color: white;
   border: none;
 }
+
+.form-error {
+  color: #b91c1c;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  margin: 0;
+}
